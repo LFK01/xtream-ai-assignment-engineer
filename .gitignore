@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # Tensorboard Logs
-.runs/
+runs/
 
 # pytorch models
-.pytorch_models
+pytorch_models/
