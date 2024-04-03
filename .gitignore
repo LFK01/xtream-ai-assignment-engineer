@@ -130,3 +130,6 @@ dmypy.json
 
 # Tensorboard Logs
 .runs/
+
+# pytorch models
+.pytorch_models
