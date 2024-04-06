@@ -133,3 +133,12 @@ runs/
 
 # pytorch models
 pytorch_models/
+
+# Pycharm IDE settings
+.idea
+
+# logging files
+logs/
+
+# MacOs files
+.DS_Store
