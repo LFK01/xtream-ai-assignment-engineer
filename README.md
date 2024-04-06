@@ -82,4 +82,7 @@ So, ready to add some sparkle to this challenge? Let's make these diamonds shine
 ---
 
 ## How to run
-Please fill this section as part of the assignment.
+
+### Challenge 1
+
+Run the notebook [ch-1.ipynb](ch-1.ipynb). The first cell installs all the required packages.
