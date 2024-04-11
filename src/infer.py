@@ -1,6 +1,7 @@
 import os
-from src.utils.logger import get_default_logger
-from src.utils.consts import LOG_DIR, SAVED_MODELS_DIR, TENSORBOARD_DIR, DIAMONDS_CSV_FILE
+import json
+from src.utils.logger_utils import get_logger
+from src.utils.consts import LOG_DIR, SAVED_MODELS_DIR, TENSORBOARD_DIR, TRAIN_CONFIGURATION_FILE
 from src.data_utils.preprocess import DataProcessor, COLS_DICT
 from src.model.model import NeuralNetworkPredictor
 
@@ -13,15 +14,21 @@ if __name__ == '__main__':
     if not os.path.exists(TENSORBOARD_DIR):
         os.mkdir(TENSORBOARD_DIR)
 
-    logger = get_default_logger()
+    # Load the JSON file
+    with open(TRAIN_CONFIGURATION_FILE, 'r') as file:
+        config_dict = json.load(file)
 
-    df = DataProcessor.load_data(DIAMONDS_CSV_FILE)
+    logger = get_logger(filepath=config_dict['logger']['conf_file'])
+
+    df = DataProcessor.load_data(filepath=config_dict['dataset']['csv_file'])
 
     model = NeuralNetworkPredictor(headers_dict=COLS_DICT,
                                    hidden_size=2 ** 10,
                                    logger=logger)
 
-    indices_to_select = [2797, 2986, 4132, 4287, 4259]
-    result = model.infer(df.iloc[indices_to_select])
-    logger.info('\n'.join([f'Pred: {pred} Target: {target} Error: {abs(pred - target)}'
-                           for pred, target in zip(result, df.iloc[indices_to_select]['price'].values)]))
+    result = model.infer(df)
+
+    df[COLS_DICT['price']] = result
+    logger.info(df.head())
+
+    df.to_csv(config_dict['output']['file'])
