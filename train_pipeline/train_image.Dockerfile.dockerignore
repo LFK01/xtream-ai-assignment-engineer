@@ -1,0 +1,20 @@
+# Exclude version control files
+.git
+.gitignore
+
+# Exclude local development files
+*.pyc
+__pycache__
+
+# Exclude temporary files
+*.log
+*.tmp
+
+# Exclude virtual environment files
+venv
+.env
+
+# Exclude any other unnecessary files or directories
+node_modules
+*.db
+*.zip
