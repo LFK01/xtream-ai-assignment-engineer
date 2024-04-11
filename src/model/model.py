@@ -22,7 +22,7 @@ from src.data_utils.preprocess import DataProcessor
 from src.model.neural_network import NeuralNetworkRegressionModel
 from src.utils.consts import SAVED_MODELS_DIR, LOG_DIR, MODEL_FILENAME, PCA_PICKLE_FILENAME, MEAN_STD_DEV_FILENAME
 
-SEED = 1
+SEED = 1234
 TRAIN_SIZE = 0.7
 VAL_SIZE = 0.2
 TEST_SIZE = 0.1
@@ -38,8 +38,8 @@ torch.manual_seed(SEED)
 class PricePredictor(ABC):
     def __init__(self,
                  headers_dict: dict,
-                 data: pd.DataFrame,
                  logger: Logger,
+                 data: pd.DataFrame,
                  reduce_dimensions: bool = True,
                  ) -> None:
         self.headers_dict = headers_dict
@@ -49,9 +49,8 @@ class PricePredictor(ABC):
         self.logger = logger
 
     @abstractmethod
-    def process_data(self) -> None:
+    def prepare_datasets(self) -> None:
         self.data = self.preprocessor.process_data(df=self.data)
-        pass
 
     @abstractmethod
     def train(self) -> None:
@@ -106,8 +105,8 @@ class NeuralNetworkPredictor(PricePredictor):
         self.model_directory = None
         self.criterion = nn.L1Loss()
 
-    def process_data(self) -> None:
-        super().process_data()
+    def prepare_datasets(self) -> None:
+        super().prepare_datasets()
 
         # https://stackoverflow.com/questions/38250710/how-to-split-data-into-3-sets-train-validation-and-test
         self.train_split, self.val_split, self.test_split = np.split(self.data.sample(frac=1, random_state=SEED),

@@ -1,0 +1,10 @@
+keras==3.1.1
+matplotlib==3.8.3
+numpy==1.26.4
+PyYAML==6.0.1
+scikit-learn==1.4.1.post1
+seaborn==0.13.2
+tensorboard==2.16.2
+# installing directly from the pytorch index to avoid uneccessary nvidia dependecies, this saves about 10 minutes
+# of image build time
+https://download.pytorch.org/whl/cpu-cxx11-abi/torch-2.2.2%2Bcpu.cxx11.abi-cp312-cp312-linux_x86_64.whl#sha256=f94f31c1694e9511667ce1e9bc6910908a0ae925c598a877c365c2c123d5982d
