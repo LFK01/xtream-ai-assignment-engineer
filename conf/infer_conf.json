@@ -1,0 +1,11 @@
+{
+  "logger": {
+    "conf_file": "conf/log_conf.yaml"
+  },
+  "dataset": {
+    "csv_file": "datasets/diamonds/diamonds.csv"
+  },
+  "output": {
+    "model_dir": "pytorch_models/"
+  }
+}
