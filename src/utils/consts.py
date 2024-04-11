@@ -9,6 +9,8 @@ DIAMONDS_DATASETS_DIR = os.path.join(DATASETS_DIR, 'diamonds')
 DIAMONDS_CSV_FILE = os.path.join(DIAMONDS_DATASETS_DIR, 'diamonds.csv')
 
 CONF_DIR = os.path.join(ROOT_DIR, 'conf')
+TRAIN_CONFIGURATION_FILE = os.path.join(CONF_DIR, 'train_conf.json')
+INFER_CONFIGURATION_FILE = os.path.join(CONF_DIR, 'infer_conf.json')
 LOG_CONF_FILE = os.path.join(CONF_DIR, 'log_conf.yaml')
 LOG_DIR = os.path.join(ROOT_DIR, 'logs')
 SAVED_MODELS_DIR = os.path.join(ROOT_DIR, 'pytorch_models')
