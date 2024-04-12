@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  infer-service:
+    build:
+      context: ../.
+      dockerfile: infer_pipeline/infer_image.Dockerfile
+    volumes:
+      - ../src:/app/src
+      - ../conf:/app/conf
+      - ../logs:/app/logs
+      - ../pytorch_models:/app/pytorch_models
+      - ../datasets:/app/datasets
+    environment:
+      PYTHONPATH: "/app"
+    command: ["python", "src/infer.py"]
