@@ -175,8 +175,8 @@ class NeuralNetworkPredictor(PricePredictor):
             # Print training and validation loss
             train_loss /= len(self.train_dataloader.dataset)
             val_loss /= len(self.val_dataloader.dataset)
-            self.logger.debug(f'Epoch [{epoch + 1}/{self.num_epochs}], Train Loss: {train_loss:.4f}, '
-                              f'Val Loss: {val_loss:.4f}')
+            self.logger.info(f'Epoch [{epoch + 1}/{self.num_epochs}], Train Loss: {train_loss:.4f}, '
+                             f'Val Loss: {val_loss:.4f}')
 
             # Check for improvement in validation loss
             if val_loss < best_val_loss:
@@ -188,7 +188,7 @@ class NeuralNetworkPredictor(PricePredictor):
 
             # Check if early stopping criteria met
             if counter >= self.patience:
-                self.logger.debug('Early stopping: No improvement in validation loss.')
+                self.logger.info('Early stopping: No improvement in validation loss.')
                 break
 
         self.save_model(best_val_loss=best_val_loss,
@@ -248,15 +248,17 @@ class NeuralNetworkPredictor(PricePredictor):
         self.load_mean_std_values()
         self.load_pca()
 
-        self.logger.debug(f'Start Infer DataFrame Head:\n{input_df.head()}')
-        input_df = self.preprocessor.convert_categorical(df=input_df)
-        self.logger.debug(f'Convert Categorical Infer DataFrame Head:\n{input_df.head()}')
-        input_df = self.preprocessor.reduce_dimensions(df=input_df, pca=self.preprocessor.pca)
-        self.logger.debug(f'Reduce Dimensions Infer DataFrame Head:\n{input_df.head()}')
-        input_df = self.preprocessor.normalize_values(df=input_df)
-        self.logger.debug(f'Normalized Infer DataFrame Head:\n{input_df[self.preprocessor.feature_cols].head()}')
+        df = input_df.copy()
 
-        self.X_test = torch.tensor(input_df[self.preprocessor.feature_cols].values, dtype=torch.float32)
+        self.logger.debug(f'Start Infer DataFrame Head:\n{df.head()}')
+        df = self.preprocessor.convert_categorical(df=df)
+        self.logger.debug(f'Convert Categorical Infer DataFrame Head:\n{df.head()}')
+        df = self.preprocessor.reduce_dimensions(df=df, pca=self.preprocessor.pca)
+        self.logger.debug(f'Reduce Dimensions Infer DataFrame Head:\n{df.head()}')
+        df = self.preprocessor.normalize_values(df=df)
+        self.logger.debug(f'Normalized Infer DataFrame Head:\n{df[self.preprocessor.feature_cols].head()}')
+
+        self.X_test = torch.tensor(df[self.preprocessor.feature_cols].values, dtype=torch.float32)
         test_dataset = TensorDataset(self.X_test)
         self.test_dataloader = DataLoader(test_dataset, batch_size=self.batch_size, shuffle=False)
 
