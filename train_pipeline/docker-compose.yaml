@@ -6,8 +6,11 @@ services:
       context: ../.
       dockerfile: train_pipeline/train_image.Dockerfile
     volumes:
-      - ./logs:/app/logs
-      - ./pytorch_models:/app/pytorch_models
+      - ../src:/app/src
+      - ../conf:/app/conf
+      - ../logs:/app/logs
+      - ../pytorch_models:/app/pytorch_models
+      - ../datasets:/app/datasets
     environment:
       PYTHONPATH: "/app"
     command: ["python", "src/train.py"]
