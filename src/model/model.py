@@ -250,13 +250,9 @@ class NeuralNetworkPredictor(PricePredictor):
 
         df = input_df.copy()
 
-        self.logger.debug(f'Start Infer DataFrame Head:\n{df.head()}')
         df = self.preprocessor.convert_categorical(df=df)
-        self.logger.debug(f'Convert Categorical Infer DataFrame Head:\n{df.head()}')
         df = self.preprocessor.reduce_dimensions(df=df, pca=self.preprocessor.pca)
-        self.logger.debug(f'Reduce Dimensions Infer DataFrame Head:\n{df.head()}')
         df = self.preprocessor.normalize_values(df=df)
-        self.logger.debug(f'Normalized Infer DataFrame Head:\n{df[self.preprocessor.feature_cols].head()}')
 
         self.X_test = torch.tensor(df[self.preprocessor.feature_cols].values, dtype=torch.float32)
         test_dataset = TensorDataset(self.X_test)
