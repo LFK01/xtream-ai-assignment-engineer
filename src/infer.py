@@ -1,7 +1,7 @@
 import os
 import json
 from src.utils.logger_utils import get_logger
-from src.utils.consts import LOG_DIR, SAVED_MODELS_DIR, TENSORBOARD_DIR, TRAIN_CONFIGURATION_FILE
+from src.utils.consts import LOG_DIR, SAVED_MODELS_DIR, TENSORBOARD_DIR, INFER_CONFIGURATION_FILE
 from src.data_utils.preprocess import DataProcessor, COLS_DICT
 from src.model.model import NeuralNetworkPredictor
 
@@ -15,7 +15,7 @@ if __name__ == '__main__':
         os.mkdir(TENSORBOARD_DIR)
 
     # Load the JSON file
-    with open(TRAIN_CONFIGURATION_FILE, 'r') as file:
+    with open(INFER_CONFIGURATION_FILE, 'r') as file:
         config_dict = json.load(file)
 
     logger = get_logger(filepath=config_dict['logger']['conf_file'])
