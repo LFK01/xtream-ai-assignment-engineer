@@ -5,6 +5,9 @@
   "dataset": {
     "csv_file": "datasets/diamonds/diamonds.csv"
   },
+  "model": {
+    "filepath": "pytorch_models/2024-04-12_15_24_38_model_loss_329/model.pth"
+  },
   "output": {
     "model_dir": "pytorch_models/"
   }

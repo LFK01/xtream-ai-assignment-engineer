@@ -27,6 +27,7 @@ if __name__ == '__main__':
         os.mkdir(TENSORBOARD_DIR)
 
     df = DataProcessor.load_data(filepath=config_dict['dataset']['csv_file'])
+
     logger.debug(f'Loaded data from the file: {config_dict['dataset']['csv_file']}')
 
     model = NeuralNetworkPredictor(headers_dict=COLS_DICT,

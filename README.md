@@ -85,4 +85,51 @@ So, ready to add some sparkle to this challenge? Let's make these diamonds shine
 
 ### Challenge 1
 
-Run the notebook [ch-1.ipynb](ch-1.ipynb). The first cell installs all the required packages.
+Run the notebook [ch-1.ipynb](ch-1.ipynb). The first cell installs all the required packages. 
+Necessary comments and observations are written inside the notebook.
+
+### Challenge 2
+
+The training and infer pipelines have been automated using docker, the pipelines have been tested with Docker 4.28.0, 
+and they require the Docker compose functionality. Download docker from the official 
+[website](https://docs.docker.com/get-docker/).
+
+Follow the next steps to execute the training pipeline:
+- Clone the repository. 
+- Navigate to [train_pipeline](train_pipeline).
+- Execute the docker-compose command:
+   ```
+   docker-compose up
+  ```
+
+The training pipeline will launch a docker container with a python image that install all the required packages, binds
+the volumes to access the source files, the datasets and everything needed by the application. When the image has 
+finished the build procedure the python will load the dataset from the csv file, it will preprocess the data, and it 
+will start training the Pytorch model.
+
+The trained model will be saved in the ```pytorch_models``` directory with the date and the best Mean Absolute Error 
+Loss obtained on the validation set. Whenever new data is inserted into the database you can launch the training again.
+At the moment the fine-tuning of previously trained models is not implemented because new data would change the 
+preprocessing procedure and an old model should not benefit from data normalized on a different dataset.
+
+We can see the performance of the model in the [logs](logs) directory where a graph of the performance on the test set 
+will be saved.
+
+To use the trained model you can launch the inference pipeline. This pipeline takes a csv file with the same columns as 
+the initial database and applies the preprocessing used during training. In the datasets folder there is the 
+[infer_diamonds.csv](datasets%2Fdiamonds%2Finfer_diamonds.csv) file with the first 5 rows of the dataset and without 
+the price column to test the inference function. The pipeline is already set up to use this file for inference, we 
+suggest to modify the [infer_diamonds.csv](datasets%2Fdiamonds%2Finfer_diamonds.csv) to test the model performance on 
+new data.
+
+Follow the next steps to execute the inference pipeline:
+- Navigate to [infer_pipeline](infer_pipeline).
+- Execute the docker-compose command:
+   ```
+   docker-compose up
+  ```
+  
+The predictions will be saved in a csv file in the [diamonds](datasets%2Fdiamonds) folder. The csv file will have the 
+original dataset columns and the new column ```price``` with the predicted values. With the current configuration the 
+script will search for the model with the best performance in the [pytorch_models](pytorch_models) directory.
+
