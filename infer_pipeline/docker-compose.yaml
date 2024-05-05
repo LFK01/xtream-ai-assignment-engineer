@@ -1,16 +1,26 @@
+# Docker compose file that enables the management of services and volumes in a single YAML configuration file
 version: '3.8'
 
+# List of services to be deployed, here we deploy the service to use the model for inference
 services:
   infer-service:
     build:
+      # specify context so that the dockerfile is able to retrieve the requirements.txt file to build the image
       context: ../.
+      # specify the path where the dockerfile can be found
       dockerfile: infer_pipeline/infer_image.Dockerfile
+    # image tag
+    image: infer_image
+    # mount the volumes needed by the image to execute python files and store results
     volumes:
       - ../src:/app/src
       - ../conf:/app/conf
       - ../logs:/app/logs
       - ../pytorch_models:/app/pytorch_models
       - ../datasets:/app/datasets
+    # declare the PYTHONPATH environment variable so that all local python modules will be found
     environment:
       PYTHONPATH: "/app"
+    # execute the application
     command: ["python", "src/infer.py"]
+    container_name: infer_container
