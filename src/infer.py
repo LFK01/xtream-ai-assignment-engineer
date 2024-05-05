@@ -29,6 +29,6 @@ if __name__ == '__main__':
     result = model.infer(df)
 
     df[COLS_DICT['price']] = result
-    logger.info(df.head())
+    logger.info(f'PREDICTIONS:\n{df.head()}')
 
     df.to_csv(config_dict['output']['file'], index=False)
