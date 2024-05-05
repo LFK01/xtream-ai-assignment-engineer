@@ -102,7 +102,7 @@ Follow the next steps to execute the training pipeline:
    docker-compose up
   ```
 
-The training pipeline will launch a docker container with a python image that install all the required packages, binds
+The training pipeline will launch a docker container with a python image that installs all the required packages, binds
 the volumes to access the source files, the datasets and everything needed by the application. When the image has 
 finished the build procedure the python will load the dataset from the csv file, it will preprocess the data, and it 
 will start training the Pytorch model.
